@@ -3,7 +3,6 @@ import { Credentials } from '@/types/LocalTypes';
 import { LoginResponse, UserResponse } from '@sharedTypes/MessageTypes';
 
 const useUser = () => {
-  // TODO: implement network functions for auth server user endpoints
   const getUserByToken = async (token: string) => {
     const options = {
       headers: {
@@ -41,7 +40,10 @@ const use2FA = () => {
       body: JSON.stringify(user),
     };
 
-    // TODO: fetch and return qrCodeUrl from 2FA server /auth/setup
+    return await fetchData<{ qrCodeUrl: string }>(
+      import.meta.env.VITE_2FA_API + '/auth/setup',
+      options,
+    );
   };
 
   const postVerify = async (creds: Credentials) => {

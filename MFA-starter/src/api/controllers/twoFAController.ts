@@ -76,11 +76,12 @@ const verifyTwoFA = async (
       algorithm: 'SHA1',
       digits: 6,
       period: 30,
-      secret: twoFactorData.twoFactorSecret,
+      secret: OTPAuth.Secret.fromBase32(twoFactorData.twoFactorSecret),
     });
 
     const isValid = totp.validate({token: code, window: 1});
-    if (!isValid) {
+
+    if (isValid === null) {
       next(new CustomError('Verification code is not valid', 400));
       return;
     }
